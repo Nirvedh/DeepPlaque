@@ -25,11 +25,11 @@ def encoder(x, filters=44, n_block=3, kernel_size=(3, 3), activation='relu'):
     return x, skip
 
 
-def bottleneck(x, filters_bottleneck, mode='cascade', depth=3,
+def bottleneck(x, filters_bottleneck, mode='cascade', depth=6,
                kernel_size=(3, 3), activation='relu'):
     dilated_layers = []
-    #dil_f =[1,2,3,4,5,6]
-    dil_f =[1,1,1]
+    dil_f =[1,2,3,4,5,6] #this is for dilated unet
+    #dil_f =[1,1,1] #this for regular unet remeber to change depth=3 and n_blocks=4 when using this
     if mode == 'cascade':  # used in the competition
         for i in range(depth):
             x = Conv2D(filters_bottleneck, kernel_size,
@@ -63,7 +63,7 @@ def get_dilated_unet(
         input_shape=(1920, 1280, 3),
         mode='cascade',
         filters=44,
-        n_block=4,
+        n_block=3,
         lr=0.0001,
         loss=binary_crossentropy,#bce_dice_loss,
         n_class=1
